@@ -1,0 +1,780 @@
+<!DOCTYPE html><!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>TGC Titans Gaming Community</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=Orbitron:wght@400;500;700&display=swap" rel="stylesheet">
+    <style>
+        /* General Site Styles */
+        body {
+            font-family: 'Inter', sans-serif;
+            background-color: #1a202c; /* Dark blue-gray */
+            color: #e2e8f0; /* Light gray */
+        }
+        .header-font {
+            font-family: 'Orbitron', sans-serif;
+        }
+        .btn-primary {
+            background-color: #4f46e5; /* Indigo */
+            color: white;
+            transition: background-color 0.3s ease, transform 0.2s ease;
+        }
+        .btn-primary:hover {
+            background-color: #4338ca; /* Darker Indigo */
+            transform: translateY(-2px);
+        }
+        .btn-secondary {
+            background-color: #374151; /* Cool Gray */
+            color: white;
+            transition: background-color 0.3s ease, transform 0.2s ease;
+        }
+        .btn-secondary:hover {
+            background-color: #1f2937; /* Darker Cool Gray */
+            transform: translateY(-2px);
+        }
+        .card {
+            background-color: #2d3748; /* Darker shade for cards */
+            border-radius: 0.75rem; /* 12px */
+            overflow: hidden;
+            box-shadow: 0 10px 15px -3px rgba(0, 0, 0, 0.1), 0 4px 6px -2px rgba(0, 0, 0, 0.05);
+            transition: transform 0.3s ease, box-shadow 0.3s ease;
+        }
+        .card:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 20px 25px -5px rgba(0,0,0,0.1), 0 10px 10px -5px rgba(0,0,0,0.04);
+        }
+        .navbar {
+            background-color: rgba(26, 32, 44, 0.85);
+            backdrop-filter: blur(12px);
+        }
+        .hero-section {
+            background: linear-gradient(rgba(26, 32, 44, 0.75), rgba(26, 32, 44, 0.95)), url('https://placehold.co/1920x1080/1a202c/4f46e5?text=Epic+Gaming+Arena');
+            background-size: cover;
+            background-position: center;
+            background-attachment: fixed;
+        }
+        .section-title {
+            border-bottom: 3px solid #4f46e5;
+            padding-bottom: 0.75rem;
+            display: inline-block;
+            margin-bottom: 1rem;
+        }
+        .game-card img, .event-card img, .news-card img {
+            aspect-ratio: 16 / 9;
+            object-fit: cover;
+        }
+        .community-icon {
+            width: 50px;
+            height: 50px;
+        }
+        @keyframes pulsate {
+            0%, 100% { transform: scale(1); text-shadow: 0 0 5px rgba(79, 70, 229, 0.5); }
+            50% { transform: scale(1.05); text-shadow: 0 0 15px rgba(79, 70, 229, 0.8), 0 0 25px rgba(129, 140, 248, 0.5); }
+        }
+        .site-title-pulsate { animation: pulsate 3s infinite ease-in-out; display: inline-block; }
+        .partner-logo { max-height: 80px; filter: grayscale(80%); transition: filter 0.3s ease; }
+        .partner-logo:hover { filter: grayscale(0%); }
+
+        /* Rules Section Styles */
+        .rules-content h3 { font-family: 'Orbitron', sans-serif; font-size: 1.5rem; color: #a5b4fc; margin-top: 1.5rem; margin-bottom: 0.75rem; }
+        .rules-content h4 { font-family: 'Orbitron', sans-serif; font-size: 1.25rem; color: #c7d2fe; margin-top: 1rem; margin-bottom: 0.5rem; }
+        .rules-content ul { list-style-type: disc; margin-left: 1.5rem; margin-bottom: 1rem; }
+        .rules-content ul ul { list-style-type: circle; margin-left: 1.5rem; margin-top: 0.5rem; }
+        .rules-content p { margin-bottom: 0.75rem; line-height: 1.6; }
+        .rules-content strong { color: #e2e8f0; }
+
+        /* Chatbot Specific Styles */
+        .tgc-chatbot-container {
+            box-shadow: 0 0 20px 0 rgba(0, 0, 0, 0.1), 0 0 20px 0 rgba(76, 175, 80, 0.1); /* Subtle glow */
+            transition: all 0.3s ease; /* Smooth transitions */
+            max-height: 80vh; /* Ensure chatbot doesn't take full screen height */
+        }
+        .tgc-chatbot-message {
+            opacity: 0;
+            transform: translateY(10px);
+            animation: tgcChatbotFadeIn 0.3s forwards;
+        }
+        @keyframes tgcChatbotFadeIn {
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+        .tgc-chatbot-scrollbar-thin::-webkit-scrollbar { width: 8px; }
+        .tgc-chatbot-scrollbar-thin::-webkit-scrollbar-track { background: #2d3748; border-radius: 10px; }
+        .tgc-chatbot-scrollbar-thin::-webkit-scrollbar-thumb { background: #4a5568; border-radius: 10px; }
+        .tgc-chatbot-scrollbar-thin::-webkit-scrollbar-thumb:hover { background: #718096; }
+
+        .tgc-chatbot-btn-send {
+            background: linear-gradient(to right, #4CAF50, #2E7D32); /* Green gradient */
+            transition: transform 0.2s ease, box-shadow 0.2s ease;
+        }
+        .tgc-chatbot-btn-send:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 4px 10px rgba(76, 175, 80, 0.4);
+        }
+        .tgc-chatbot-input-glow:focus {
+            border-color: #4CAF50;
+            box-shadow: 0 0 0 3px rgba(76, 175, 80, 0.3);
+        }
+        #chatbot-modal-wrapper { /* Styles for the modal overlay */
+            transition: opacity 0.3s ease-in-out, visibility 0.3s ease-in-out;
+        }
+        #chatbot-modal-wrapper.hidden {
+            opacity: 0;
+            visibility: hidden;
+        }
+        #chatbot-modal-wrapper:not(.hidden) {
+            opacity: 1;
+            visibility: visible;
+        }
+    </style>
+</head>
+<body class="antialiased">
+
+    <nav class="navbar fixed top-0 left-0 right-0 z-50 p-4 shadow-xl">
+        <div class="container mx-auto flex justify-between items-center">
+            <a href="#home" class="site-title-pulsate header-font text-3xl font-bold text-indigo-400">
+                TGC<span class="text-white">Titans</span>
+            </a>
+            <div class="hidden md:flex space-x-6 items-center">
+                <a href="#home" class="text-gray-300 hover:text-indigo-400 transition duration-300 px-2 py-1 rounded-md">Home</a>
+                <a href="#games" class="text-gray-300 hover:text-indigo-400 transition duration-300 px-2 py-1 rounded-md">Games</a>
+                <a href="#news" class="text-gray-300 hover:text-indigo-400 transition duration-300 px-2 py-1 rounded-md">News</a>
+                <a href="#events" class="text-gray-300 hover:text-indigo-400 transition duration-300 px-2 py-1 rounded-md">Events</a>
+                <a href="#community" class="text-gray-300 hover:text-indigo-400 transition duration-300 px-2 py-1 rounded-md">Community</a>
+                <a href="#rules" class="text-gray-300 hover:text-indigo-400 transition duration-300 px-2 py-1 rounded-md">Rules</a>
+                <a href="#about" class="text-gray-300 hover:text-indigo-400 transition duration-300 px-2 py-1 rounded-md">About</a>
+                <a href="#contact" class="text-gray-300 hover:text-indigo-400 transition duration-300 px-2 py-1 rounded-md">Contact</a>
+                <button class="btn-primary py-2 px-5 rounded-lg font-semibold text-sm">Join Now</button>
+            </div>
+            <div class="md:hidden">
+                <button id="mobile-menu-button" class="text-gray-300 focus:outline-none">
+                    <svg class="w-7 h-7" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 6h16M4 12h16m-7 6h7"></path></svg>
+                </button>
+            </div>
+        </div>
+        <div id="mobile-menu" class="hidden md:hidden mt-3 space-y-2 px-4 pb-4 bg-gray-800 rounded-b-lg shadow-lg">
+            <a href="#home" class="block text-gray-300 hover:text-indigo-400 transition duration-300 py-2">Home</a>
+            <a href="#games" class="block text-gray-300 hover:text-indigo-400 transition duration-300 py-2">Games</a>
+            <a href="#news" class="block text-gray-300 hover:text-indigo-400 transition duration-300 py-2">News</a>
+            <a href="#events" class="block text-gray-300 hover:text-indigo-400 transition duration-300 py-2">Events</a>
+            <a href="#community" class="block text-gray-300 hover:text-indigo-400 transition duration-300 py-2">Community</a>
+            <a href="#rules" class="block text-gray-300 hover:text-indigo-400 transition duration-300 py-2">Rules</a>
+            <a href="#about" class="block text-gray-300 hover:text-indigo-400 transition duration-300 py-2">About</a>
+            <a href="#contact" class="block text-gray-300 hover:text-indigo-400 transition duration-300 py-2">Contact</a>
+            <button class="w-full btn-primary py-2.5 px-4 rounded-lg font-semibold mt-2">Join Now</button>
+        </div>
+    </nav>
+
+    <section id="home" class="hero-section pt-36 pb-24 md:pt-52 md:pb-36 text-center">
+        <div class="container mx-auto px-4">
+            <h1 class="header-font text-5xl sm:text-6xl md:text-7xl font-bold mb-6 text-shadow-lg">
+                <span class="text-indigo-400">TGC</span> Titans Gaming Community
+            </h1>
+            <p class="text-xl md:text-2xl text-gray-200 mb-10 max-w-3xl mx-auto">
+                Your ultimate destination for gaming. Connect with fellow Titans, compete in exclusive events, and conquer new worlds together!
+            </p>
+            <div>
+                <a href="#games" class="btn-primary py-3 px-8 rounded-lg text-lg font-semibold mr-2 sm:mr-4 mb-2 sm:mb-0 inline-block">Explore Games</a>
+                <a href="https://discord.gg/XwB7ZjXPCg" target="_blank" class="btn-secondary py-3 px-8 rounded-lg text-lg font-semibold inline-block">Join Discord</a>
+            </div>
+        </div>
+    </section>
+
+    <section id="games" class="py-16 md:py-24 bg-gray-800">
+        <div class="container mx-auto px-4">
+            <h2 class="header-font text-4xl md:text-5xl font-bold text-center section-title text-indigo-300">Featured Games</h2>
+            <p class="text-center text-gray-400 mb-12 md:mb-16 max-w-2xl mx-auto">Dive into the action with our most popular titles and community favorites. New adventures await!</p>
+            <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-3 gap-8 md:gap-10">
+                <div class="card game-card">
+                    <img src="https://placehold.co/600x400/374151/e2e8f0?text=CyberClash+Arena" alt="CyberClash Arena" class="w-full h-52 object-cover" onerror="this.src='https://placehold.co/600x400/374151/e2e8f0?text=Image+Error'; this.alt='Error loading image'">
+                    <div class="p-6">
+                        <h3 class="header-font text-2xl font-semibold mb-2 text-indigo-300">CyberClash Arena</h3>
+                        <p class="text-gray-400 mb-4 text-sm">Fast-paced FPS action with a futuristic twist. Team up and dominate the leaderboard.</p>
+                        <a href="#" class="inline-block btn-primary py-2 px-4 rounded-md text-sm font-medium">Learn More</a>
+                    </div>
+                </div>
+                <div class="card game-card">
+                    <img src="https://placehold.co/600x400/3b82f6/e2e8f0?text=Mystic+Realms+RPG" alt="Mystic Realms RPG" class="w-full h-52 object-cover" onerror="this.src='https://placehold.co/600x400/3b82f6/e2e8f0?text=Image+Error'; this.alt='Error loading image'">
+                    <div class="p-6">
+                        <h3 class="header-font text-2xl font-semibold mb-2 text-indigo-300">Mystic Realms RPG</h3>
+                        <p class="text-gray-400 mb-4 text-sm">Embark on a sprawling adventure in a world of magic and monsters. Your legend awaits.</p>
+                        <a href="#" class="inline-block btn-primary py-2 px-4 rounded-md text-sm font-medium">Learn More</a>
+                    </div>
+                </div>
+                <div class="card game-card">
+                    <img src="https://placehold.co/600x400/10b981/e2e8f0?text=Galactic+Conquest" alt="Galactic Conquest" class="w-full h-52 object-cover" onerror="this.src='https://placehold.co/600x400/10b981/e2e8f0?text=Image+Error'; this.alt='Error loading image'">
+                    <div class="p-6">
+                        <h3 class="header-font text-2xl font-semibold mb-2 text-indigo-300">Galactic Conquest</h3>
+                        <p class="text-gray-400 mb-4 text-sm">Command vast armies and conquer the galaxy in this epic real-time strategy game.</p>
+                        <a href="#" class="inline-block btn-primary py-2 px-4 rounded-md text-sm font-medium">Learn More</a>
+                    </div>
+                </div>
+                <div class="card game-card">
+                    <img src="https://placehold.co/600x400/ef4444/e2e8f0?text=Speed+Racers+Ultimate" alt="Speed Racers Ultimate" class="w-full h-52 object-cover" onerror="this.src='https://placehold.co/600x400/ef4444/e2e8f0?text=Image+Error'; this.alt='Error loading image'">
+                    <div class="p-6">
+                        <h3 class="header-font text-2xl font-semibold mb-2 text-indigo-300">Speed Racers Ultimate</h3>
+                        <p class="text-gray-400 mb-4 text-sm">High-octane racing with customizable cars and challenging tracks.</p>
+                        <a href="#" class="inline-block btn-primary py-2 px-4 rounded-md text-sm font-medium">Learn More</a>
+                    </div>
+                </div>
+                <div class="card game-card">
+                    <img src="https://placehold.co/600x400/f97316/e2e8f0?text=Puzzle+Masters+Pro" alt="Puzzle Masters Pro" class="w-full h-52 object-cover" onerror="this.src='https://placehold.co/600x400/f97316/e2e8f0?text=Image+Error'; this.alt='Error loading image'">
+                    <div class="p-6">
+                        <h3 class="header-font text-2xl font-semibold mb-2 text-indigo-300">Puzzle Masters Pro</h3>
+                        <p class="text-gray-400 mb-4 text-sm">Test your wits with hundreds of challenging puzzles and brain teasers.</p>
+                        <a href="#" class="inline-block btn-primary py-2 px-4 rounded-md text-sm font-medium">Learn More</a>
+                    </div>
+                </div>
+                 <div class="card game-card">
+                    <img src="https://placehold.co/600x400/8b5cf6/e2e8f0?text=Legends+of+Valor" alt="Legends of Valor" class="w-full h-52 object-cover" onerror="this.src='https://placehold.co/600x400/8b5cf6/e2e8f0?text=Image+Error'; this.alt='Error loading image'">
+                    <div class="p-6">
+                        <h3 class="header-font text-2xl font-semibold mb-2 text-indigo-300">Legends of Valor</h3>
+                        <p class="text-gray-400 mb-4 text-sm">A new MOBA experience. Choose your hero and battle for glory.</p>
+                        <a href="#" class="inline-block btn-primary py-2 px-4 rounded-md text-sm font-medium">Learn More</a>
+                    </div>
+                </div>
+                <div class="card game-card">
+                    <img src="https://placehold.co/600x400/007bff/ffffff?text=World+of+Warships" alt="World of Warships" class="w-full h-52 object-cover" onerror="this.src='https://placehold.co/600x400/007bff/ffffff?text=Image+Error'; this.alt='Error loading image'">
+                    <div class="p-6">
+                        <h3 class="header-font text-2xl font-semibold mb-2 text-indigo-300">World of Warships</h3>
+                        <p class="text-gray-400 mb-4 text-sm">Command a massive naval fleet featuring history's most iconic war vessels, level up important tech modules and prepare to dominate the oceans in World of Warships.</p>
+                        <a href="https://worldofwarships.com/sign-up/?xid_clickid=&msclkid=7a904c2e37641fced2be24022562793a&utm_source=bing&utm_medium=cpc&utm_campaign=WOWS_Ong_COM_US_Bing_S_B_ACQ&utm_term=world+of+warships&utm_content=exact" target="_blank" rel="noopener noreferrer" class="inline-block btn-primary py-2 px-4 rounded-md text-sm font-medium">Sign Up & Play</a>
+                    </div>
+                </div>
+            </div>
+            <div class="text-center mt-12">
+                <button class="btn-secondary py-3 px-8 rounded-lg text-lg font-semibold">View All Games</button>
+            </div>
+        </div>
+    </section>
+
+    <section id="news" class="py-16 md:py-24">
+        <div class="container mx-auto px-4">
+            <h2 class="header-font text-4xl md:text-5xl font-bold text-center section-title text-indigo-300">Latest News & Updates</h2>
+            <p class="text-center text-gray-400 mb-12 md:mb-16 max-w-2xl mx-auto">Stay informed with the latest happenings, announcements, and patch notes from the TGC Titans community.</p>
+            <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
+                <div class="card news-card">
+                    <img src="https://placehold.co/600x338/4f46e5/e2e8f0?text=Community+Update" alt="News 1" class="w-full h-48 object-cover" onerror="this.src='https://placehold.co/600x338/4f46e5/e2e8f0?text=Image+Error'; this.alt='Error loading image'">
+                    <div class="p-6">
+                        <span class="text-xs text-indigo-400 uppercase font-semibold">Community</span>
+                        <h3 class="header-font text-xl font-semibold my-2 text-gray-100">New Discord Roles & Perks!</h3>
+                        <p class="text-gray-400 mb-4 text-sm">We've updated our Discord server with new roles and exciting perks for active members. Check them out!</p>
+                        <a href="#" class="text-indigo-400 hover:text-indigo-300 font-medium text-sm">Read More &rarr;</a>
+                    </div>
+                </div>
+                <div class="card news-card">
+                    <img src="https://placehold.co/600x338/10b981/e2e8f0?text=Game+Patch+Notes" alt="News 2" class="w-full h-48 object-cover" onerror="this.src='https://placehold.co/600x338/10b981/e2e8f0?text=Image+Error'; this.alt='Error loading image'">
+                    <div class="p-6">
+                        <span class="text-xs text-green-400 uppercase font-semibold">CyberClash Arena</span>
+                        <h3 class="header-font text-xl font-semibold my-2 text-gray-100">Patch v1.5 Live: New Map & Balances</h3>
+                        <p class="text-gray-400 mb-4 text-sm">The latest patch for CyberClash Arena is now live, featuring the new "Neon Alley" map and several weapon balance changes.</p>
+                        <a href="#" class="text-green-400 hover:text-green-300 font-medium text-sm">Read More &rarr;</a>
+                    </div>
+                </div>
+                <div class="card news-card">
+                    <img src="https://placehold.co/600x338/f59e0b/e2e8f0?text=Event+Recap" alt="News 3" class="w-full h-48 object-cover" onerror="this.src='https://placehold.co/600x338/f59e0b/e2e8f0?text=Image+Error'; this.alt='Error loading image'">
+                    <div class="p-6">
+                        <span class="text-xs text-amber-400 uppercase font-semibold">Events</span>
+                        <h3 class="header-font text-xl font-semibold my-2 text-gray-100">Mystic Realms Speedrun Recap</h3>
+                        <p class="text-gray-400 mb-4 text-sm">What an incredible turnout for our first Mystic Realms speedrun challenge! See the winners and highlights.</p>
+                        <a href="#" class="text-amber-400 hover:text-amber-300 font-medium text-sm">Read More &rarr;</a>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <section id="events" class="py-16 md:py-24 bg-gray-800">
+        <div class="container mx-auto px-4">
+            <h2 class="header-font text-4xl md:text-5xl font-bold text-center section-title text-indigo-300">Upcoming Events</h2>
+            <p class="text-center text-gray-400 mb-12 md:mb-16 max-w-2xl mx-auto">Don't miss out! Join us for exciting tournaments, community game nights, and special streams.</p>
+            <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
+                <div class="card event-card">
+                    <img src="https://placehold.co/600x400/d946ef/e2e8f0?text=Tournament+Night" alt="Event 1" class="w-full h-48 object-cover" onerror="this.src='https://placehold.co/600x400/d946ef/e2e8f0?text=Image+Error'; this.alt='Error loading image'">
+                    <div class="p-6">
+                        <div class="mb-2">
+                            <span class="bg-fuchsia-500 text-white text-xs font-semibold px-2.5 py-0.5 rounded-full">Tournament</span>
+                            <span class="text-gray-400 text-xs ml-2">June 5, 2025 - 7 PM EST</span>
+                        </div>
+                        <h3 class="header-font text-xl font-semibold mb-2 text-gray-100">Galactic Conquest: Titan Clash</h3>
+                        <p class="text-gray-400 mb-4 text-sm">Prove your strategic mastery in our weekly Galactic Conquest tournament. Prizes for top players!</p>
+                        <a href="#" class="inline-block btn-secondary py-2 px-4 rounded-md text-sm font-medium">Sign Up</a>
+                    </div>
+                </div>
+                <div class="card event-card">
+                    <img src="https://placehold.co/600x400/0ea5e9/e2e8f0?text=Community+Night" alt="Event 2" class="w-full h-48 object-cover" onerror="this.src='https://placehold.co/600x400/0ea5e9/e2e8f0?text=Image+Error'; this.alt='Error loading image'">
+                    <div class="p-6">
+                        <div class="mb-2">
+                            <span class="bg-sky-500 text-white text-xs font-semibold px-2.5 py-0.5 rounded-full">Game Night</span>
+                            <span class="text-gray-400 text-xs ml-2">June 12, 2025 - 8 PM EST</span>
+                        </div>
+                        <h3 class="header-font text-xl font-semibold mb-2 text-gray-100">Casual Co-op Night: Fun Times!</h3>
+                        <p class="text-gray-400 mb-4 text-sm">Join us for a relaxed evening of co-op gaming. Vote for the game of the night on Discord!</p>
+                        <a href="#" class="inline-block btn-secondary py-2 px-4 rounded-md text-sm font-medium">More Info</a>
+                    </div>
+                </div>
+                <div class="card event-card">
+                    <img src="https://placehold.co/600x400/ec4899/e2e8f0?text=Live+Stream" alt="Event 3" class="w-full h-48 object-cover" onerror="this.src='https://placehold.co/600x400/ec4899/e2e8f0?text=Image+Error'; this.alt='Error loading image'">
+                    <div class="p-6">
+                        <div class="mb-2">
+                            <span class="bg-pink-500 text-white text-xs font-semibold px-2.5 py-0.5 rounded-full">Live Stream</span>
+                            <span class="text-gray-400 text-xs ml-2">June 20, 2025 - 6 PM EST</span>
+                        </div>
+                        <h3 class="header-font text-xl font-semibold mb-2 text-gray-100">Dev Q&A: Mystic Realms Expansion</h3>
+                        <p class="text-gray-400 mb-4 text-sm">Got questions about the upcoming Mystic Realms expansion? Join our live Q&A with the dev team!</p>
+                        <a href="#" class="inline-block btn-secondary py-2 px-4 rounded-md text-sm font-medium">Watch Live</a>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <section id="community" class="py-16 md:py-24">
+        <div class="container mx-auto px-4">
+            <h2 class="header-font text-4xl md:text-5xl font-bold text-center section-title text-indigo-300">Join Our Thriving Community</h2>
+            <p class="text-center text-gray-400 mb-12 md:mb-16 max-w-2xl mx-auto">Connect with fellow Titans, participate in discussions, share your moments, and make new friends.</p>
+            <div class="grid grid-cols-1 md:grid-cols-3 gap-8 text-center">
+                <div class="card p-8">
+                    <div class="flex justify-center mb-4">
+                        <svg class="community-icon text-indigo-400" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M17 8h2a2 2 0 012 2v6a2 2 0 01-2 2h-2v4l-4-4H9a1.994 1.994 0 01-1.414-.586m0 0L11 14h4a2 2 0 002-2V6a2 2 0 00-2-2H5a2 2 0 00-2 2v6a2 2 0 002 2h2v4l.586-.586z" />
+                        </svg>
+                    </div>
+                    <h3 class="header-font text-2xl font-semibold mb-2 text-indigo-300">Active Forums</h3>
+                    <p class="text-gray-400 text-sm">Discuss strategies, share tips, and get help from experienced players.</p>
+                </div>
+                <div class="card p-8">
+                     <div class="flex justify-center mb-4">
+                        <svg class="community-icon text-indigo-400" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 8v4l3 3m6-3a9 9 0 11-18 0 9 9 0 0118 0z" />
+                        </svg>
+                    </div>
+                    <h3 class="header-font text-2xl font-semibold mb-2 text-indigo-300">Member Spotlights</h3>
+                    <p class="text-gray-400 text-sm">Get to know our amazing members and their contributions to the community.</p>
+                </div>
+                <div class="card p-8">
+                    <div class="flex justify-center mb-4">
+                         <svg class="community-icon text-indigo-400" xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M16 20V4a2 2 0 0 0-2-2h-4a2 2 0 0 0-2 2v16"/><rect width="20" height="14" x="2" y="6" rx="2"/><line x1="12" x2="12" y1="12" y2="12"/></svg>
+                    </div>
+                    <h3 class="header-font text-2xl font-semibold mb-2 text-indigo-300">Clip of the Week</h3>
+                    <p class="text-gray-400 text-sm">Share your epic gaming moments and vote for the best clip each week!</p>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <section id="about" class="py-16 md:py-24 bg-gray-800">
+        <div class="container mx-auto px-4">
+            <h2 class="header-font text-4xl md:text-5xl font-bold text-center section-title text-indigo-300">About TGC Titans</h2>
+             <p class="text-center text-gray-400 mb-12 md:mb-16 max-w-2xl mx-auto">Learn more about our mission, values, and the passionate team behind our vibrant gaming community.</p>
+            <div class="flex flex-col md:flex-row items-center gap-8 md:gap-12">
+                <div class="md:w-1/2">
+                    <img src="https://placehold.co/700x450/2d3748/e2e8f0?text=TGC+Community+Spirit" alt="About TGC Titans" class="rounded-lg shadow-xl w-full" onerror="this.src='https://placehold.co/700x450/2d3748/e2e8f0?text=Image+Error'; this.alt='Error loading image'">
+                </div>
+                <div class="md:w-1/2">
+                    <h3 class="header-font text-3xl font-semibold mb-4 text-indigo-300">Our Story & Mission</h3>
+                    <p class="text-gray-300 mb-4 leading-relaxed">
+                        TGC Titans Gaming Community was forged in 2024 from a shared dream: to build an inclusive, exhilarating, and supportive haven for gamers of all stripes. Whether you're a casual enthusiast looking for friends or a competitive player aiming for the top, we believe in the power of gaming to connect, inspire, and create unforgettable experiences.
+                    </p>
+                    <p class="text-gray-300 mb-6 leading-relaxed">
+                        Our core mission is to cultivate a positive and dynamic environment where sportsmanship, teamwork, and mutual respect flourish. We strive to offer diverse gaming opportunities, host engaging events, and provide a platform for members to grow, share their passion, and be part of something truly special.
+                    </p>
+                    <a href="#" class="btn-primary py-3 px-6 rounded-lg font-semibold">Meet the Founders</a>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <section id="partners" class="py-16 md:py-24">
+        <div class="container mx-auto px-4">
+            <h2 class="header-font text-4xl md:text-5xl font-bold text-center section-title text-indigo-300">Our Valued Partners</h2>
+            <p class="text-center text-gray-400 mb-12 md:mb-16 max-w-2xl mx-auto">We're proud to collaborate with amazing brands and organizations that support the gaming community.</p>
+            <div class="flex flex-wrap justify-center items-center gap-10 md:gap-16">
+                <img src="https://placehold.co/150x80/374151/9ca3af?text=Partner+1" alt="Partner 1 Logo" class="partner-logo" onerror="this.src='https://placehold.co/150x80/374151/9ca3af?text=Logo'; this.alt='Error loading image'">
+                <img src="https://placehold.co/150x80/374151/9ca3af?text=Partner+2" alt="Partner 2 Logo" class="partner-logo" onerror="this.src='https://placehold.co/150x80/374151/9ca3af?text=Logo'; this.alt='Error loading image'">
+                <img src="https://placehold.co/150x80/374151/9ca3af?text=Partner+3" alt="Partner 3 Logo" class="partner-logo" onerror="this.src='https://placehold.co/150x80/374151/9ca3af?text=Logo'; this.alt='Error loading image'">
+                <img src="https://placehold.co/150x80/374151/9ca3af?text=Partner+4" alt="Partner 4 Logo" class="partner-logo" onerror="this.src='https://placehold.co/150x80/374151/9ca3af?text=Logo'; this.alt='Error loading image'">
+                <img src="https://placehold.co/150x80/374151/9ca3af?text=Partner+5" alt="Partner 5 Logo" class="partner-logo" onerror="this.src='https://placehold.co/150x80/374151/9ca3af?text=Logo'; this.alt='Error loading image'">
+            </div>
+        </div>
+    </section>
+
+    <section id="rules" class="py-16 md:py-24 bg-gray-800">
+        <div class="container mx-auto px-4">
+            <h2 class="header-font text-4xl md:text-5xl font-bold text-center section-title text-indigo-300">TGC Titans: Official Rules</h2>
+            <div class="max-w-3xl mx-auto rules-content text-gray-300">
+                <p>Welcome to the TGC Titans Gaming Community! To ensure a fun, fair, and respectful environment for all members, please read and adhere to the following rules. Violation of these rules may result in warnings, temporary suspension, or a permanent ban from the community, depending on the severity and frequency of the offense.</p>
+                <h3>Section 1: General Conduct & Respect</h3>
+                <ul>
+                    <li><strong>Respect All Members:</strong> Treat everyone with respect, regardless of their skill level, background, age, gender, race, ethnicity, religion, sexual orientation, or any other personal attribute. Harassment, discrimination, hate speech, and bullying in any form will not be tolerated.</li>
+                    <li><strong>No Toxicity:</strong> This includes, but is not limited to, flaming, excessive negativity, personal attacks, insults, or any behavior intended to provoke or upset other members. Keep it positive!</li>
+                    <li><strong>Keep it Clean:</strong> Avoid excessive profanity. While some mature language might be acceptable in certain contexts (depending on game ratings and specific channel rules), overly offensive or vulgar language is prohibited. No NSFW (Not Safe For Work) content outside of designated channels (if any).</li>
+                    <li><strong>No Doxxing or Sharing Personal Information:</strong> Do not share personal information about yourself or others without explicit consent. This includes real names, addresses, phone numbers, social media profiles, etc.</li>
+                    <li><strong>Impersonation:</strong> Do not impersonate other members, moderators, administrators, or any other individual.</li>
+                    <li><strong>Follow Instructions:</strong> Adhere to the instructions and decisions of TGC Admin and Moderator staff. If you have a concern about a decision, please address it privately and respectfully with a staff member.</li>
+                </ul>
+                <h3>Section 2: Communication & Channel Usage</h3>
+                <ul>
+                    <li><strong>Use Appropriate Channels:</strong> Post content in the relevant channels. Off-topic discussions should be kept to designated off-topic or general chat areas.</li>
+                    <li><strong>No Spamming:</strong> Avoid spamming chat channels with repetitive messages, excessive emojis, large blocks of text, or unsolicited advertisements.</li>
+                    <li><strong>Voice Chat Etiquette:</strong>
+                        <ul>
+                            <li>Be mindful of background noise. Use push-to-talk if necessary.</li>
+                            <li>Do not intentionally disrupt voice channels with loud noises, music, or voice changers unless appropriate for the context and agreed upon by participants.</li>
+                            <li>Avoid talking over others excessively. Give everyone a chance to speak.</li>
+                        </ul>
+                    </li>
+                    <li><strong>Language:</strong> The primary language for general community channels is English. If specific language channels are created, please use them accordingly.</li>
+                    <li><strong>Advertising & Self-Promotion:</strong>
+                        <ul>
+                            <li>Unsolicited advertising of other communities, services, or products is generally not allowed.</li>
+                            <li>Some self-promotion (e.g., streaming links, content creation) may be permitted in designated areas or with prior approval from Admin. Check specific channel rules.</li>
+                        </ul>
+                    </li>
+                </ul>
+                <h3>Section 3: Gameplay & Fair Play</h3>
+                <ul>
+                    <li><strong>No Cheating or Hacking:</strong> The use of cheats, hacks, exploits, or any third-party software that provides an unfair advantage in any game is strictly prohibited.</li>
+                    <li><strong>Sportsmanship:</strong> Play fair and be a good sport, whether you win or lose. Congratulate opponents and be gracious in defeat.</li>
+                    <li><strong>Team Play:</strong> When participating in team-based games, cooperate with your teammates and contribute to the team's objectives. Griefing, intentionally sabotaging your team, or refusing to play your role is discouraged.</li>
+                    <li><strong>Respect Game-Specific Rules:</strong> Adhere to the terms of service and rules of conduct for any game you are playing within the community.</li>
+                    <li><strong>Stream Sniping/Ghosting:</strong> Do not engage in stream sniping (using a streamer's live broadcast to gain an unfair advantage) or ghosting (providing live information to players in a game they shouldn't have).</li>
+                </ul>
+                <h3>Section 4: Community Engagement & Content</h3>
+                <ul>
+                    <li><strong>Constructive Feedback:</strong> We welcome constructive feedback about the community. Please share your thoughts in a respectful manner through appropriate channels or directly with staff.</li>
+                    <li><strong>Event Participation:</strong> We encourage participation in community events, tournaments, and activities. Follow event-specific rules and instructions.</li>
+                    <li><strong>Content Sharing:</strong> When sharing content (memes, videos, articles), ensure it is appropriate for the community and does not violate any other rules (e.g., NSFW, hate speech). Give credit to original creators where applicable.</li>
+                    <li><strong>Spoilers:</strong> Be mindful of spoilers for games, movies, or shows. Use spoiler tags or warnings, especially in general channels.</li>
+                </ul>
+                <h3>Section 5: Moderation & Rule Enforcement</h3>
+                <ul>
+                    <li><strong>Reporting Violations:</strong> If you witness a member violating community rules, please report it to an Admin or Moderator with any relevant evidence (screenshots, VOD clips, etc.). Do not engage in public call-outs; let the staff handle the situation.</li>
+                    <li><strong>Disciplinary Actions:</strong> Rule violations will be addressed by TGC Admin and Moderator staff. Actions may include:
+                        <ul>
+                            <li>Verbal/written warning</li>
+                            <li>Temporary mute or restriction from specific channels</li>
+                            <li>Temporary suspension from the community</li>
+                            <li>Permanent ban from the community</li>
+                        </ul>
+                    </li>
+                    <li><strong>Appeals:</strong> If you believe a disciplinary action taken against you was unfair, you may appeal the decision by contacting an Admin privately and respectfully.</li>
+                    <li><strong>Rule Updates:</strong> These rules are subject to change. Major updates will be announced to the community. It is your responsibility to stay informed about the current rules.</li>
+                </ul>
+                <h3>Section 6: Joining TGC Titans & Representing the Community</h3>
+                <ul>
+                    <li><strong>Application/Joining Process (If Applicable):</strong> Follow any specified procedures for joining TGC Titans (e.g., application form, tryouts, invitation).</li>
+                    <li><strong>Community Tag/Name:</strong> If using a TGC community tag or name in-game or on other platforms, represent the community positively and uphold these rules.</li>
+                    <li><strong>Be an Ambassador:</strong> As a member of TGC Titans, you are an ambassador for our community. Your actions, both within and outside of official TGC spaces, can reflect on the community as a whole. Strive to be a positive influence in the wider gaming world.</li>
+                </ul>
+                <p class="mt-6">By participating in the TGC Titans Gaming Community, you agree to abide by these rules. Our goal is to create a thriving, enjoyable, and inclusive space for all gamers. Let's build something great together!</p>
+                <p class="mt-4 font-semibold">TGC Admin & Moderator Team</p>
+                <p class="text-sm text-gray-400">(Date of Last Revision: May 19, 2025)</p>
+            </div>
+        </div>
+    </section>
+
+    <section id="contact" class="py-16 md:py-24 bg-gray-700">
+        <div class="container mx-auto px-4">
+            <h2 class="header-font text-4xl md:text-5xl font-bold text-center section-title text-indigo-300">Get In Touch</h2>
+            <p class="text-center text-gray-400 mb-12 md:mb-16 max-w-2xl mx-auto">Have questions, suggestions, partnership inquiries, or just want to say hi? We'd love to hear from you.</p>
+            <div class="max-w-xl mx-auto card p-8 md:p-10 bg-gray-800">
+                <form action="#" method="POST">
+                    <div class="mb-6">
+                        <label for="name" class="block text-sm font-medium text-gray-300 mb-1.5">Full Name</label>
+                        <input type="text" name="name" id="name" class="w-full p-3 rounded-md bg-gray-700 border border-gray-600 focus:border-indigo-500 focus:ring focus:ring-indigo-500 focus:ring-opacity-50 transition duration-150" placeholder="Your Name">
+                    </div>
+                    <div class="mb-6">
+                        <label for="email" class="block text-sm font-medium text-gray-300 mb-1.5">Email Address</label>
+                        <input type="email" name="email" id="email" class="w-full p-3 rounded-md bg-gray-700 border border-gray-600 focus:border-indigo-500 focus:ring focus:ring-indigo-500 focus:ring-opacity-50 transition duration-150" placeholder="you@example.com">
+                    </div>
+                     <div class="mb-6">
+                        <label for="subject" class="block text-sm font-medium text-gray-300 mb-1.5">Subject</label>
+                        <input type="text" name="subject" id="subject" class="w-full p-3 rounded-md bg-gray-700 border border-gray-600 focus:border-indigo-500 focus:ring focus:ring-indigo-500 focus:ring-opacity-50 transition duration-150" placeholder="Reason for contacting">
+                    </div>
+                    <div class="mb-6">
+                        <label for="message" class="block text-sm font-medium text-gray-300 mb-1.5">Message</label>
+                        <textarea name="message" id="message" rows="5" class="w-full p-3 rounded-md bg-gray-700 border border-gray-600 focus:border-indigo-500 focus:ring focus:ring-indigo-500 focus:ring-opacity-50 transition duration-150" placeholder="Your message..."></textarea>
+                    </div>
+                    <div>
+                        <button type="submit" class="w-full btn-primary py-3.5 px-6 rounded-lg font-semibold text-lg">Send Message</button>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </section>
+
+    <footer class="bg-gray-900 py-12 md:py-16">
+        <div class="container mx-auto px-4 text-center text-gray-400">
+            <a href="#home" class="site-title-pulsate header-font text-2xl font-bold text-indigo-400 mb-4 inline-block">
+                TGC<span class="text-white">Titans</span>
+            </a>
+            <p class="mb-6 text-sm">Titans Gaming Community &copy; <span id="currentYear"></span>. All rights reserved. <br class="sm:hidden">Designed with passion for gamers, by gamers.</p>
+            <div class="space-x-4 sm:space-x-6 mb-6">
+                <a href="#" class="hover:text-indigo-400 transition duration-300 text-sm">Privacy Policy</a>
+                <a href="#" class="hover:text-indigo-400 transition duration-300 text-sm">Terms of Service</a>
+                <a href="#rules" class="hover:text-indigo-400 transition duration-300 text-sm">Code of Conduct</a>
+                <a href="#contact" class="hover:text-indigo-400 transition duration-300 text-sm">Contact Us</a>
+            </div>
+            <div class="flex justify-center space-x-5 sm:space-x-6">
+                <a href="#" title="Facebook" class="text-gray-400 hover:text-indigo-400 transition duration-300">
+                    <svg class="w-6 h-6" fill="currentColor" viewBox="0 0 24 24" aria-hidden="true"><path fill-rule="evenodd" d="M22 12c0-5.523-4.477-10-10-10S2 6.477 2 12c0 4.991 3.657 9.128 8.438 9.878v-6.987h-2.54V12h2.54V9.797c0-2.506 1.492-3.89 3.777-3.89 1.094 0 2.238.195 2.238.195v2.46h-1.26c-1.243 0-1.63.771-1.63 1.562V12h2.773l-.443 2.89h-2.33v6.988C18.343 21.128 22 16.991 22 12z" clip-rule="evenodd" /></svg>
+                </a>
+                <a href="#" title="Twitter / X" class="text-gray-400 hover:text-indigo-400 transition duration-300">
+                    <svg class="w-6 h-6" fill="currentColor" viewBox="0 0 24 24" aria-hidden="true"><path d="M18.244 2.25h3.308l-7.227 8.26 8.502 11.24H16.17l-5.214-6.817L4.99 21.75H1.68l7.73-8.835L1.254 2.25H8.08l4.713 6.231zm-1.161 17.52h1.833L7.084 4.126H5.117z" /></svg>
+                </a>
+                <a href="#" title="Instagram" class="text-gray-400 hover:text-indigo-400 transition duration-300">
+                     <svg class="w-6 h-6" fill="currentColor" viewBox="0 0 24 24" aria-hidden="true"><path fill-rule="evenodd" d="M12 2C6.477 2 2 6.477 2 12s4.477 10 10 10s10-4.477 10-10S17.523 2 12 2zm4.927 8.176a.61.61 0 00-.868-.004l-3.48 3.032a.61.61 0 01-.876 0l-1.74-1.51a.61.61 0 00-.853.076l-3.049 3.553a.61.61 0 00.495 1.008h10.003a.61.61 0 00.495-1.008l-3.136-4.149z" clip-rule="evenodd" /></svg>
+                </a>
+                 <a href="https://discord.gg/XwB7ZjXPCg" target="_blank" title="Discord" class="text-gray-400 hover:text-indigo-400 transition duration-300">
+                    <svg class="w-6 h-6" fill="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path d="M19.54 0c-.19.01-.38.03-.57.05a12.03 12.03 0 00-2.81.52 12.2 12.2 0 00-2.34 1.02c-.02.01-.03.02-.05.03a11.82 11.82 0 00-1.76 1.14A11.64 11.64 0 004.46 2.8C4.46 2.8 2.4 6.44 2.4 12s2.06 9.2 2.06 9.2A11.64 11.64 0 0010 22.86c.02.01.03.02.05.03a11.82 11.82 0 001.76 1.14 12.2 12.2 0 002.34 1.02c.9.25 1.83.43 2.78.52.19.02.38.04.57.05a11.97 11.97 0 004.28-1.04 12.08 12.08 0 003.3-2.87s2.06-3.64 2.06-9.2S21.54.8 21.54.8a12.08 12.08 0 00-3.3-2.87 11.97 11.97 0 00-4.28-1.04zm-8.23 14.68c-.83 0-1.5-.73-1.5-1.63s.67-1.63 1.5-1.63c.82 0 1.5.73 1.5 1.63s-.68 1.63-1.5 1.63zm4.62 0c-.83 0-1.5-.73-1.5-1.63s.67-1.63 1.5-1.63c.82 0 1.5.73 1.5 1.63s-.68 1.63-1.5 1.63z"/></svg>
+                </a>
+                <a href="#" title="YouTube" class="text-gray-400 hover:text-indigo-400 transition duration-300">
+                    <svg class="w-6 h-6" fill="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path d="M23.498 6.186a3.016 3.016 0 0 0-2.122-2.136C19.505 3.545 12 3.545 12 3.545s-7.505 0-9.377.505A3.017 3.017 0 0 0 .502 6.186C0 8.07 0 12 0 12s0 3.93.502 5.814a3.016 3.016 0 0 0 2.122 2.136c1.871.505 9.376.505 9.376.505s7.505 0 9.377-.505a3.015 3.015 0 0 0 2.122-2.136C24 15.93 24 12 24 12s0-3.93-.502-5.814zM9.545 15.568V8.432L15.818 12l-6.273 3.568z"/></svg>
+                </a>
+            </div>
+        </div>
+    </footer>
+
+    <button id="chatbot-toggle-button" class="fixed bottom-8 right-8 bg-indigo-600 hover:bg-indigo-700 text-white p-3 rounded-full shadow-lg z-[70] transition-transform hover:scale-110 focus:outline-none focus:ring-2 focus:ring-indigo-400 focus:ring-opacity-50">
+        <svg xmlns="http://www.w3.org/2000/svg" class="h-7 w-7" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2">
+            <path stroke-linecap="round" stroke-linejoin="round" d="M8 10h.01M12 10h.01M16 10h.01M9 16H5a2 2 0 01-2-2V6a2 2 0 012-2h14a2 2 0 012 2v8a2 2 0 01-2 2h-5l-5 5v-5z" />
+        </svg>
+    </button>
+
+    <div id="chatbot-modal-wrapper" class="fixed inset-0 bg-black bg-opacity-60 flex items-center justify-center z-[60] hidden p-4">
+        <div class="tgc-chatbot-container w-full max-w-md bg-gray-800 rounded-xl shadow-2xl flex flex-col overflow-hidden border-2 border-green-500">
+            <header class="bg-gray-700 p-4 text-white flex justify-between items-center rounded-t-lg">
+                <div>
+                    <h1 class="text-lg font-bold header-font">TGC Titans Assistance</h1>
+                    <p class="text-xs text-green-400">Chatbot</p>
+                </div>
+                <button id="chatbot-close-button" class="text-gray-400 hover:text-white p-1 rounded-full hover:bg-gray-600">
+                    <svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2">
+                        <path stroke-linecap="round" stroke-linejoin="round" d="M6 18L18 6M6 6l12 12" />
+                    </svg>
+                </button>
+            </header>
+            <div id="tgc-chat-messages" class="flex-1 p-4 space-y-3 overflow-y-auto tgc-chatbot-scrollbar-thin bg-gray-800" style="max-height: calc(80vh - 150px);">
+                <div class="flex tgc-chatbot-message justify-start">
+                    <div class="flex-shrink-0 h-9 w-9 rounded-full bg-green-500 text-white flex items-center justify-center font-bold text-xs">BOT</div>
+                    <div class="ml-2 bg-gray-700 p-2.5 rounded-lg shadow max-w-xs sm:max-w-sm">
+                        <p class="text-sm text-gray-200">Hello! I'm the TGC Titans Chatbot. How can I help you today? Ask about events, rules, or how to join!</p>
+                    </div>
+                </div>
+            </div>
+            <footer class="bg-gray-700 p-3 border-t border-gray-600 rounded-b-lg">
+                <div class="flex items-center space-x-2">
+                    <input type="text" id="tgc-user-input" placeholder="Type your message..." class="flex-1 p-2.5 bg-gray-600 text-gray-200 rounded-lg border border-gray-500 focus:outline-none focus:ring-2 focus:ring-green-500 focus:border-transparent tgc-chatbot-input-glow transition-shadow duration-200 text-sm" autocomplete="off">
+                    <button id="tgc-send-button" class="tgc-chatbot-btn-send text-white font-semibold py-2.5 px-4 rounded-lg focus:outline-none focus:ring-2 focus:ring-green-300 text-sm">
+                        Send
+                    </button>
+                </div>
+            </footer>
+        </div>
+    </div>
+
+
+    <script>
+        // --- Main Page Scripts ---
+        const mobileMenuButton = document.getElementById('mobile-menu-button');
+        const mobileMenu = document.getElementById('mobile-menu');
+        if (mobileMenuButton && mobileMenu) {
+            mobileMenuButton.addEventListener('click', () => {
+                mobileMenu.classList.toggle('hidden');
+            });
+        }
+
+        document.querySelectorAll('a[href^="#"]').forEach(anchor => {
+            anchor.addEventListener('click', function (e) {
+                e.preventDefault();
+                const targetId = this.getAttribute('href');
+                if (targetId.length > 1) {
+                    const targetElement = document.querySelector(targetId);
+                    if (targetElement) {
+                        const navbarHeight = document.querySelector('.navbar').offsetHeight;
+                        const elementPosition = targetElement.getBoundingClientRect().top;
+                        const offsetPosition = elementPosition + window.pageYOffset - navbarHeight;
+                        window.scrollTo({ top: offsetPosition, behavior: 'smooth' });
+                        if (mobileMenu && !mobileMenu.classList.contains('hidden')) {
+                            mobileMenu.classList.add('hidden');
+                        }
+                    }
+                } else if (targetId === "#") {
+                     window.scrollTo({ top: 0, behavior: 'smooth' });
+                     if (mobileMenu && !mobileMenu.classList.contains('hidden')) {
+                        mobileMenu.classList.add('hidden');
+                    }
+                }
+            });
+        });
+
+        const currentYearElement = document.getElementById('currentYear');
+        if (currentYearElement) {
+            currentYearElement.textContent = new Date().getFullYear();
+        }
+        
+        // --- Chatbot Scripts ---
+        const chatbotModalWrapper = document.getElementById('chatbot-modal-wrapper');
+        const chatbotToggleButton = document.getElementById('chatbot-toggle-button');
+        const chatbotCloseButton = document.getElementById('chatbot-close-button');
+        
+        const tgcChatMessages = document.getElementById('tgc-chat-messages');
+        const tgcUserInput = document.getElementById('tgc-user-input');
+        const tgcSendButton = document.getElementById('tgc-send-button');
+
+        // Toggle chatbot visibility
+        if (chatbotToggleButton && chatbotModalWrapper) {
+            chatbotToggleButton.addEventListener('click', () => {
+                chatbotModalWrapper.classList.remove('hidden');
+                tgcUserInput.focus(); // Auto-focus input when chat opens
+            });
+        }
+        if (chatbotCloseButton && chatbotModalWrapper) {
+            chatbotCloseButton.addEventListener('click', () => {
+                chatbotModalWrapper.classList.add('hidden');
+            });
+        }
+         // Close chatbot if user clicks outside the chat container (but inside the wrapper)
+        if (chatbotModalWrapper) {
+            chatbotModalWrapper.addEventListener('click', function(event) {
+                if (event.target === chatbotModalWrapper) { // Check if the click is on the wrapper itself
+                    chatbotModalWrapper.classList.add('hidden');
+                }
+            });
+        }
+
+
+        const tgcBotResponses = {
+            "hello": "Hi there! Welcome to the TGC Titans community. How can I assist you?",
+            "hi": "Hello! What can I do for you today?",
+            "hey": "Hey! Glad to see you. Ask me anything about TGC Titans.",
+            "good morning": "Good morning! Ready for some gaming?",
+            "good afternoon": "Good afternoon! How's your day going?",
+            "good evening": "Good evening! Hope you had a great day.",
+            "events": "We have weekly game nights on Fridays at 8 PM EST! We also host tournaments for popular games like Valorant and Apex Legends. Check our Discord announcements (link: https://discord.gg/XwB7ZjXPCg) for the latest schedule!",
+            "schedule": "Our main event is the Friday Night Gaming at 8 PM EST. Special tournaments and events are announced on Discord (https://discord.gg/XwB7ZjXPCg) and our website's #events section.",
+            "rules": "Our community rules are essential for a great experience! Key points: 1. Be respectful. 2. No cheating. 3. Keep discussions civil. 4. Have fun! You can find the full list on our website under the 'Rules' section or on our Discord: https://discord.gg/XwB7ZjXPCg in the #rules channel.",
+            "join": "Awesome! To join TGC Titans, please visit our Discord server using this invite link: https://discord.gg/XwB7ZjXPCg. We look forward to gaming with you!",
+            "discord": "Our Discord server is the main hub for our community! Join us here: https://discord.gg/XwB7ZjXPCg.",
+            "games": "We play a variety of games! Popular choices include Valorant, Apex Legends, Call of Duty, League of Legends, Minecraft, and many more. Feel free to suggest games in our Discord! Check the #games section on the website for some highlights.",
+            "what games do you play": "Our members enjoy a wide range of titles, from competitive shooters like Valorant and Apex, to MOBAs like League of Legends, and sandbox games like Minecraft. What do you like to play? You can see some featured games on our website too!",
+            "what can you do": "I can provide information about TGC Titans, including our events, rules, how to join, and the games we play. What are you interested in?",
+            "help": "I can help you with information about our community. Try asking about 'events', 'rules', 'how to join', or 'games we play'.",
+            "how are you": "I'm just a bot, but I'm doing great helping out the Titans! How about you?",
+            "thanks": "You're welcome! Anything else I can help with?",
+            "thank you": "No problem at all! Happy to assist.",
+            "bye": "Goodbye! See you around in the community.",
+            "cool": "Glad you think so!",
+            "ok": "Alright!",
+            "default": "Sorry, I didn't quite understand that. Could you try rephrasing? You can ask about 'events', 'rules', or 'how to join'."
+        };
+
+        if (tgcSendButton && tgcUserInput && tgcChatMessages) {
+            tgcSendButton.addEventListener('click', sendTgcMessage);
+            tgcUserInput.addEventListener('keypress', function(event) {
+                if (event.key === 'Enter') {
+                    sendTgcMessage();
+                }
+            });
+        }
+
+        function appendTgcMessage(message, sender) {
+            const messageDiv = document.createElement('div');
+            messageDiv.classList.add('flex', 'tgc-chatbot-message', 'mb-3'); // Slightly reduced margin
+
+            const avatarDiv = document.createElement('div');
+            avatarDiv.classList.add('flex-shrink-0', 'h-9', 'w-9', 'rounded-full', 'flex', 'items-center', 'justify-center', 'font-bold', 'text-xs'); // Smaller avatar
+
+            const textDiv = document.createElement('div');
+            textDiv.classList.add('ml-2', 'p-2.5', 'rounded-lg', 'shadow', 'max-w-xs', 'sm:max-w-sm'); // Smaller padding, adjusted max-width
+
+            const p = document.createElement('p');
+            p.classList.add('text-sm');
+            // Sanitize message text before adding to prevent XSS if messages could contain HTML
+            // For this simple bot, textContent is safer. If you need HTML, use a sanitizer.
+            // For links, we can manually parse and create them.
+            const linkRegex = /(https?:\/\/[^\s]+)/g;
+            const parts = message.split(linkRegex);
+            parts.forEach(part => {
+                if (part.match(linkRegex)) {
+                    const a = document.createElement('a');
+                    a.href = part;
+                    a.textContent = part;
+                    a.target = "_blank";
+                    a.classList.add('text-blue-400', 'hover:underline');
+                    p.appendChild(a);
+                } else {
+                    p.appendChild(document.createTextNode(part));
+                }
+            });
+
+
+            if (sender === 'user') {
+                messageDiv.classList.add('justify-end');
+                avatarDiv.classList.add('bg-blue-500', 'text-white', 'order-2');
+                avatarDiv.textContent = 'YOU';
+                textDiv.classList.add('bg-blue-500', 'text-white', 'order-1');
+                textDiv.style.backgroundColor = '#3b82f6';
+            } else { // Bot
+                messageDiv.classList.add('justify-start');
+                avatarDiv.classList.add('bg-green-500', 'text-white');
+                avatarDiv.textContent = 'BOT';
+                textDiv.classList.add('bg-gray-700', 'text-gray-200');
+            }
+
+            textDiv.appendChild(p);
+            messageDiv.appendChild(avatarDiv); 
+            messageDiv.appendChild(textDiv);
+            if (sender === 'user') { 
+                messageDiv.insertBefore(textDiv, avatarDiv);
+            }
+
+            tgcChatMessages.appendChild(messageDiv);
+            tgcChatMessages.scrollTop = tgcChatMessages.scrollHeight;
+        }
+
+        function sendTgcMessage() {
+            const messageText = tgcUserInput.value.trim();
+            if (messageText === '') return;
+
+            appendTgcMessage(messageText, 'user');
+            tgcUserInput.value = ''; 
+
+            setTimeout(() => {
+                const botReply = getTgcBotResponse(messageText);
+                appendTgcMessage(botReply, 'bot');
+            }, 500 + Math.random() * 300);
+        }
+
+        function getTgcBotResponse(userMessage) {
+            const lowerUserMessage = userMessage.toLowerCase();
+            let bestMatch = 'default';
+            let highestMatchScore = 0;
+
+            for (const keyword in tgcBotResponses) {
+                // More sophisticated matching could be done here (e.g., word overlap score)
+                if (lowerUserMessage.includes(keyword)) {
+                    // Prioritize longer/more specific keywords
+                    if (keyword.length > highestMatchScore) {
+                        highestMatchScore = keyword.length;
+                        bestMatch = keyword;
+                    }
+                     // Handle specific phrases more accurately
+                    if (keyword === "games" && lowerUserMessage.includes("what games do you play")) {
+                         bestMatch = "what games do you play";
+                         break; // Found a very specific match
+                    }
+                }
+            }
+            return tgcBotResponses[bestMatch];
+        }
+
+    </script>
+</body>
+</html>
+
